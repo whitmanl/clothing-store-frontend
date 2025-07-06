@@ -52,13 +52,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const getUser = useCallback(async () => {
     setIsLoading(true);
     const token = Cookies.get("token");
-    if (token) {
-      const user = await get("/user");
+    const userId = Cookies.get("userId");
+    if (token && userId) {
+      const user = await get(`/users/${userId}`);
       if (user && user.status != 401 && user.status != 403) {
         setUser(user);
       } else {
         setUser({});
         Cookies.remove("token");
+        Cookies.remove("userId");
       }
     }
     setIsLoading(false);
@@ -70,10 +72,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (username: string, password: string) => {
     const user = await post("/users/login", { username, password });
-    if (user && user.user) {
-      setUser(user.user);
-      Cookies.set("token", user.token);
-      router.push('/catalogue')
+    if (user?.user) {
+      setUser(user?.user);
+      Cookies.set("token", user.accessToken);
+      Cookies.set("userId", user.user.id);
+      router.push("/catalogue");
     }
     return user;
   };
