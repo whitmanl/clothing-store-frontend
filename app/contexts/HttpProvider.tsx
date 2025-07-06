@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import Cookies from "js-cookie";
-import _ from "lodash";
 import React, { createContext, ReactNode, useContext } from "react";
 
 type httpContextType = {
@@ -13,10 +12,10 @@ type httpContextType = {
 };
 
 const httpContextDefaultValues: httpContextType = {
-  get: (path: string, data?: any) => {},
-  post: (path: string, data?: any) => {},
-  update: (path: string, data?: any) => {},
-  remove: (path: string, data?: any) => {},
+  get: () => {},
+  post: () => {},
+  update: () => {},
+  remove: () => {},
 };
 
 const HttpContext = createContext<httpContextType>(httpContextDefaultValues);
@@ -27,13 +26,7 @@ const useHttp = () => {
 
 export default useHttp;
 
-export const HttpProvider = ({
-  children,
-  lang,
-}: {
-  children: ReactNode;
-  lang?: string;
-}) => {
+export const HttpProvider = ({ children }: { children: ReactNode }) => {
   const _fetchWithToken = (req: any, token?: string) => {
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -45,7 +38,7 @@ export const HttpProvider = ({
     return axios({ ...req, headers, baseURL });
   };
 
-  const get = async (path: String, data?: any) => {
+  const get = async (path: string, data?: any) => {
     const token = Cookies.get("token");
     const req = {
       method: "GET",
@@ -61,7 +54,7 @@ export const HttpProvider = ({
     }
   };
 
-  const post = async (path: String, data?: any) => {
+  const post = async (path: string, data?: any) => {
     const token = Cookies.get("token");
     const req = {
       method: "POST",
@@ -77,7 +70,7 @@ export const HttpProvider = ({
     }
   };
 
-  const update = async (path: String, data?: any) => {
+  const update = async (path: string, data?: any) => {
     const token = Cookies.get("token");
 
     const req = {
@@ -94,7 +87,7 @@ export const HttpProvider = ({
     }
   };
 
-  const remove = async (path: String, data?: any) => {
+  const remove = async (path: string, data?: any) => {
     const token = Cookies.get("token");
     const req = {
       method: "DELETE",

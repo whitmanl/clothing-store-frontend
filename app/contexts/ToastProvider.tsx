@@ -2,8 +2,12 @@
 
 import React, { createContext, ReactNode, useContext, useState } from "react";
 
-const toastContextDefaultValues = {
-  showToast: (content: string, color?: "success" | "error") => {},
+type toastContextType = {
+  showToast: (content: string, color?: "success" | "error") => void;
+};
+
+const toastContextDefaultValues: toastContextType = {
+  showToast: () => {},
 };
 
 const ToastContext = createContext(toastContextDefaultValues);

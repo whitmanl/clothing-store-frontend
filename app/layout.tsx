@@ -4,6 +4,7 @@ import "./globals.css";
 import { HttpProvider } from "./contexts/HttpProvider";
 import { AuthProvider } from "./contexts/AuthProvider";
 import { ToastProvider } from "./contexts/ToastProvider";
+import { CartProvider } from "./contexts/CartProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,9 @@ export default function RootLayout({
       >
         <ToastProvider>
           <HttpProvider>
-            <AuthProvider>{children}</AuthProvider>
+            <AuthProvider>
+              <CartProvider>{children}</CartProvider>
+            </AuthProvider>
           </HttpProvider>
         </ToastProvider>
       </body>
