@@ -9,10 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "@types/js-cookie": "^3.0.6",
+    "@types/lodash": "^4.17.20",
+    "axios": "^1.10.0",
     "daisyui": "^5.0.43",
+    "js-cookie": "^3.0.5",
+    "lodash": "^4.17.21",
     "next": "15.3.5",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-loader-spinner": "^6.1.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
