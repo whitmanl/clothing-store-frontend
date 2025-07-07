@@ -8,8 +8,8 @@ import { priceFormat } from "../helpers/formatter";
 import { TrashIcon } from "@heroicons/react/24/outline";
 
 export default function Çart() {
-  const { showToast } = useToast();
-  const { cart, updateFromCart, removeFromCart, totalAmount } = useCart();
+  const { cart, updateFromCart, removeFromCart, totalPrice, checkout } =
+    useCart();
 
   return (
     <Layout>
@@ -54,7 +54,7 @@ export default function Çart() {
                       className="text-red-500 hover:text-red-700"
                       onClick={() => removeFromCart(item.product)}
                     >
-                      <TrashIcon className="w-6 h-6"/>
+                      <TrashIcon className="w-6 h-6" />
                     </button>
                   </div>
                 </div>
@@ -62,9 +62,12 @@ export default function Çart() {
             </div>
             <div className="mt-6 text-right">
               <p className="text-xl font-bold">
-                Total: {priceFormat(totalAmount)}
+                Total: {priceFormat(totalPrice)}
               </p>
-              <button className="btn btn-primary text-white py-2 px-4 rounded hover:bg-blue-600 mt-4">
+              <button
+                className="btn btn-primary text-white py-2 px-4 mt-4"
+                onClick={checkout}
+              >
                 Checkout
               </button>
             </div>

@@ -9,21 +9,26 @@ import React, {
 } from "react";
 import { Cart, Product } from "../interfaces/catalogue";
 import useToast from "../contexts/ToastProvider";
+import { useRouter } from "next/navigation";
+import useHttp from "./HttpProvider";
+import useAuth from "./AuthProvider";
 
 type httpContextType = {
   addToCart: (cart: Cart) => void;
   updateFromCart: (cart: Cart) => void;
   removeFromCart: (product: Product) => void;
+  checkout: () => void;
   cart: Cart[];
-  totalAmount: number;
+  totalPrice: number;
 };
 
 const cartContextDefaultValues: httpContextType = {
   addToCart: () => {},
   updateFromCart: () => {},
   removeFromCart: () => {},
+  checkout: () => {},
   cart: [],
-  totalAmount: 0,
+  totalPrice: 0,
 };
 
 const CartContext = createContext(cartContextDefaultValues);
@@ -35,9 +40,13 @@ const useCart = () => {
 export default useCart;
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
+  const router = useRouter();
   const { showToast } = useToast();
+  const { post } = useHttp();
+  const { user } = useAuth();
+
   const [cart, setCart] = useState<Cart[]>([]);
-  const [totalAmount, setTotalAmount] = useState<number>(0);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   const addToCart = async (cart: Cart) => {
     setCart((p) => [
@@ -58,12 +67,32 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     showToast("Successfully added to shopping cart!");
   };
 
+  const checkout = async () => {
+    const res = await post("/sales", {
+      userId: user.id,
+      products: cart.map((v) => ({
+        productId: v.product._id,
+        name: v.product.name,
+        price: v.product.price,
+        quantity: v.quantity,
+      })),
+      totalPrice,
+    });
+    if (res?.status) {
+      showToast(res?.data?.message || "Please try again later", "error");
+    } else {
+      await showToast("Successfully checkout!");
+      setCart([]);
+      router.push("catalogue");
+    }
+  };
+
   useEffect(() => {
     let amount = 0;
     for (let i = 0; i < cart.length; i++) {
       amount += cart[i].product.price * cart[i].quantity;
     }
-    setTotalAmount(amount);
+    setTotalPrice(amount);
   }, [cart]);
 
   return (
@@ -72,8 +101,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         addToCart,
         updateFromCart,
         removeFromCart,
+        checkout,
         cart,
-        totalAmount,
+        totalPrice,
       }}
     >
       {children}
