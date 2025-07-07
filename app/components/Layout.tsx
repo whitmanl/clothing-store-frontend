@@ -33,7 +33,7 @@ export default function Layout(props: { children?: ReactNode }) {
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); // Check initial size
+    handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -67,7 +67,7 @@ export default function Layout(props: { children?: ReactNode }) {
             <button
               onClick={() => {
                 logout();
-                setIsDrawerOpen(false); // Close drawer on logout
+                setIsDrawerOpen(false);
               }}
               className="block w-full text-left py-2 px-4 rounded hover:bg-gray-700 hover:text-white"
             >

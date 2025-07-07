@@ -8,6 +8,7 @@ import { Rings } from "react-loader-spinner";
 import useCart from "../../contexts/CartProvider";
 import { priceFormat } from "@/app/helpers/formatter";
 import { useRouter } from "next/navigation";
+import QuantityInput from "@/app/components/QuantityInput";
 
 export default function ProductPage({
   params,
@@ -50,8 +51,13 @@ export default function ProductPage({
     return (
       <Layout>
         <div className="w-full h-screen flex flex-col items-center justify-center gap-4">
-          Product not found. Please return to catalog
-          <button className="btn btn-info" onClick={() => router.push("/catalogue")}>Back</button>
+          <p>Product not found. Please return to catalog.</p>
+          <button
+            className="btn btn-info"
+            onClick={() => router.push("/catalogue")}
+          >
+            Back
+          </button>
         </div>
       </Layout>
     );
@@ -78,27 +84,12 @@ export default function ProductPage({
             <p className="text-gray-500 mb-8">
               Category: {productDetail.category}
             </p>
-            <div className="flex items-center gap-2 mb-4">
-              <button
-                className="bg-gray-200 text-gray-700 py-1 px-3 rounded hover:bg-gray-300"
-                onClick={() => {
-                  if (quantity > 1) {
-                    setQuantity((p) => p - 1);
-                  }
-                }}
-              >
-                -
-              </button>
-              <div className="text-lg w-full text-center">{quantity}</div>
-              <button
-                className="bg-gray-200 text-gray-700 py-1 px-3 rounded hover:bg-gray-300"
-                onClick={() => setQuantity((p) => p + 1)}
-              >
-                +
-              </button>
-            </div>
+            <QuantityInput
+              quantity={quantity}
+              onChange={(quantity: number) => setQuantity(quantity)}
+            />
             <button
-              className="btn btn-secondary w-full"
+              className="btn btn-secondary w-full mt-4"
               onClick={() => {
                 addToCart({ product: productDetail, quantity });
                 setQuantity(1);
