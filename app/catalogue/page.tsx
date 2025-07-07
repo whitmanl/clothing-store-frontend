@@ -72,7 +72,7 @@ export default function Catalogue() {
           onChange={(e) => {
             setSearch(e.target.value);
           }}
-          placeholder="Search product name or price"
+          placeholder="Search Product Name or Price"
           className="input input-info w-full mb-6"
         />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
