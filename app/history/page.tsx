@@ -32,7 +32,7 @@ export default function Catalogue() {
 
   useEffect(() => {
     async function fetchHistory() {
-      const res = await get(`/sales/${user.id}`);
+      const res = await get(`/sales/${user?.id}`);
       if (res?.status) {
         showToast(res?.data?.message || "Please try again later", "error");
       } else {
@@ -128,7 +128,7 @@ export default function Catalogue() {
   return (
     <Layout>
       <div className="container mx-auto py-8">
-        <h1 className="text-2xl font-bold mb-6">Purchase History</h1>
+        <h1 className="text-3xl font-bold mb-6">Purchase History</h1>
         <div className="mb-6 space-y-4 text-right">
           <div className="flex gap-4">
             <input

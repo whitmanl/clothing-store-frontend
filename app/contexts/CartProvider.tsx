@@ -75,7 +75,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const checkout = async () => {
     const res = await post("/sales", {
-      userId: user.id,
+      userId: user?.id,
       products: cart.map((v) => ({
         productId: v.product._id,
         name: v.product.name,

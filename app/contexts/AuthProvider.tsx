@@ -13,25 +13,24 @@ import React, {
 } from "react";
 
 import useHttp from "./HttpProvider";
+import { Profile } from "../interfaces/profile";
 
 type authContextType = {
   isAuthenticated: boolean;
   isLoading: boolean;
-  user: any;
+  user: Profile | undefined;
   getUser: () => void;
   login: (email: string, password: string) => any;
   logout: () => void;
-  updateUser: (user: any) => void;
 };
 
 const authContextDefaultValues: authContextType = {
   isAuthenticated: false,
   isLoading: true,
-  user: {},
+  user: undefined,
   getUser: () => {},
   login: () => {},
   logout: () => {},
-  updateUser: () => {},
 };
 
 const AuthContext = createContext<authContextType>(authContextDefaultValues);
@@ -46,7 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const { get, post } = useHttp();
 
-  const [user, setUser] = useState<any>({});
+  const [user, setUser] = useState<Profile | undefined>();
   const [isLoading, setIsLoading] = useState(true);
 
   const getUser = useCallback(async () => {
@@ -54,11 +53,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const token = Cookies.get("token");
     const userId = Cookies.get("userId");
     if (token && userId) {
-      const user = await get(`/users/${userId}`);
-      if (user && user.status != 401 && user.status != 403) {
-        setUser(user);
+      const userRes = await get(`/users/${userId}`);
+      if (userRes && userRes.status != 401 && userRes.status != 403) {
+        setUser(userRes);
       } else {
-        setUser({});
+        setUser(undefined);
         Cookies.remove("token");
         Cookies.remove("userId");
       }
@@ -71,37 +70,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [getUser]);
 
   const login = async (username: string, password: string) => {
-    const user = await post("/users/login", { username, password });
-    if (user?.user) {
-      setUser(user?.user);
-      Cookies.set("token", user.accessToken);
-      Cookies.set("userId", user.user.id);
+    const userRes = await post("/users/login", { username, password });
+    if (userRes?.user) {
+      setUser(userRes?.user);
+      Cookies.set("token", userRes.accessToken);
+      Cookies.set("userId", userRes.user.id);
       router.push("/catalogue");
     }
     return user;
   };
 
   const logout = () => {
-    setUser({});
+    setUser(undefined);
     Cookies.remove("token");
+    Cookies.remove("userId");
     router.push("/login");
   };
 
-  const updateUser = async (user: any) => {
-    setUser(user.user);
-    Cookies.set("token", user.token);
-  };
 
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated: !_.isEmpty(user),
+        isAuthenticated: !!user,
         user,
         getUser,
         login,
         logout,
         isLoading,
-        updateUser,
       }}
     >
       {children}

@@ -63,6 +63,7 @@ export default function Login() {
     });
     setErrors({});
   }, [isSignup]);
+
   const getErrorInputCss = (error?: string) =>
     error ? "input-error" : "input-primary";
 
@@ -72,8 +73,8 @@ export default function Login() {
         <h1 className="text-2xl font-bold mb-6 text-center">
           {isSignup ? "Sign Up" : "Login"}
         </h1>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
             <label className="block mb-1 text-gray-700">Username</label>
             <input
               type="text"
@@ -88,7 +89,7 @@ export default function Login() {
               <p className="text-red-500 text-sm mt-1">{errors.username}</p>
             )}
           </div>
-          <div className="mb-4">
+          <div>
             <label className="block mb-1 text-gray-700">Password</label>
             <input
               type="password"
@@ -104,7 +105,7 @@ export default function Login() {
             )}
           </div>
           {isSignup && (
-            <div className="mb-4">
+            <div>
               <label className="block mb-1 text-gray-700">Email</label>
               <input
                 type="email"
