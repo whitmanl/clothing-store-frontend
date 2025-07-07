@@ -1,2 +1,3 @@
-clock out at 4:45
-clock in at 9:15pm
+clock out at 6 July, 2025 4:45pm
+clock in at 6 July, 2025 9:15pm
+clock out at 7 July, 2025 12:15am
