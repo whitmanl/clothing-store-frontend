@@ -111,7 +111,6 @@ export default function Catalogue() {
     } else {
       filtered = tempOrders;
     }
-    console.log(["after product", filtered, tempOrders]);
     setFilteredHistory(filtered);
   };
 
@@ -188,7 +187,7 @@ export default function Catalogue() {
             onChange={(e) =>
               setFilters((p) => ({ ...p, productName: e.target.value }))
             }
-            placeholder="Filter by product name"
+            placeholder="Search Product Name"
             className="input input-info w-full"
           />
           <button

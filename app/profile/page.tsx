@@ -88,7 +88,7 @@ export default function ProfilePage() {
               <input
                 type="password"
                 name="password"
-                value={formData?.password}
+                value={formData?.password || ""}
                 onChange={(e) =>
                   setFormData((p) => ({ ...p, password: e.target.value }))
                 }
@@ -121,7 +121,7 @@ export default function ProfilePage() {
               <input
                 type="text"
                 name="firstName"
-                value={formData?.firstName}
+                value={formData?.firstName || ""}
                 onChange={(e) =>
                   setFormData((p) => ({ ...p, firstName: e.target.value }))
                 }
@@ -133,7 +133,7 @@ export default function ProfilePage() {
               <input
                 type="text"
                 name="lastName"
-                value={formData?.lastName}
+                value={formData?.lastName || ""}
                 onChange={(e) =>
                   setFormData((p) => ({ ...p, lastName: e.target.value }))
                 }
@@ -145,7 +145,7 @@ export default function ProfilePage() {
               <input
                 type="text"
                 name="address"
-                value={formData?.address}
+                value={formData?.address || ""}
                 onChange={(e) =>
                   setFormData((p) => ({ ...p, address: e.target.value }))
                 }
@@ -157,7 +157,7 @@ export default function ProfilePage() {
               <input
                 type="tel"
                 name="phoneNumber"
-                value={formData?.phoneNumber}
+                value={formData?.phoneNumber || ""}
                 onChange={(e) =>
                   setFormData((p) => ({ ...p, phoneNumber: e.target.value }))
                 }
