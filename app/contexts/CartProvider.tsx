@@ -20,6 +20,8 @@ type httpContextType = {
   checkout: () => void;
   cart: Cart[];
   totalPrice: number;
+  products: Product[];
+  isProductLoading: boolean;
 };
 
 const cartContextDefaultValues: httpContextType = {
@@ -29,6 +31,8 @@ const cartContextDefaultValues: httpContextType = {
   checkout: () => {},
   cart: [],
   totalPrice: 0,
+  products:[],
+  isProductLoading: true,
 };
 
 const CartContext = createContext(cartContextDefaultValues);
@@ -47,6 +51,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const [cart, setCart] = useState<Cart[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
 
   const addToCart = async (cart: Cart) => {
     setCart((p) => [
@@ -95,6 +101,18 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     setTotalPrice(amount);
   }, [cart]);
 
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const res = await fetch("/products.json");
+      if (!res.ok) showToast("Failed to fetch products", "error");
+      const data = await res.json();
+      setProducts(data);
+      setIsProductLoading(false);
+    }
+    fetchProducts();
+  }, []);
+
   return (
     <CartContext.Provider
       value={{
@@ -104,6 +122,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         checkout,
         cart,
         totalPrice,
+        products,
+        isProductLoading
       }}
     >
       {children}

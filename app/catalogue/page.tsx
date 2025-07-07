@@ -6,24 +6,12 @@ import useToast from "../contexts/ToastProvider";
 import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { Rings } from "react-loader-spinner";
+import useCart from "../contexts/CartProvider";
 
 export default function Catalogue() {
-  const { showToast } = useToast();
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { products, isProductLoading } = useCart();
 
-  useEffect(() => {
-    async function fetchProducts() {
-      const res = await fetch("/products.json");
-      if (!res.ok) showToast("Failed to fetch products", "error");
-      const data = await res.json();
-      setProducts(data);
-      setIsLoading(false);
-    }
-    fetchProducts();
-  }, []);
-
-  if (isLoading) {
+  if (isProductLoading) {
     return (
       <Layout>
         <div className="w-full h-screen flex items-center justify-center">
