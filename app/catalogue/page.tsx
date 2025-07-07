@@ -2,14 +2,14 @@
 
 import { Product } from "../interfaces/catalogue";
 import ProductCard from "../components/ProductCard";
-import useToast from "../contexts/ToastProvider";
 import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { Rings } from "react-loader-spinner";
 import useCart from "../contexts/CartProvider";
 import _ from "lodash";
+import { ProtectRoute } from "../contexts/AuthProvider";
 
-export default function Catalogue() {
+function CataloguePage() {
   const { products, isProductLoading } = useCart();
 
   const [search, setSearch] = useState("");
@@ -31,25 +31,20 @@ export default function Catalogue() {
     } else {
       filtered = tempOrders;
     }
-    setFilteredProducts(filtered)
+    setFilteredProducts(filtered);
   };
 
   useEffect(() => {
-    setFilteredProducts(products);
-  }, [products]);
-
-  useEffect(() => {
     const debouncedSearch = _.debounce(() => {
-      applyFilter()
+      applyFilter();
     }, 1000);
 
-    
     debouncedSearch();
 
     return () => {
       debouncedSearch.cancel();
     };
-  }, [search]);
+  }, [search, products]);
 
   if (isProductLoading) {
     return (
@@ -83,4 +78,6 @@ export default function Catalogue() {
       </div>
     </Layout>
   );
-}
+};
+
+export default ProtectRoute(CataloguePage);

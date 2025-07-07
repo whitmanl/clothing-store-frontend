@@ -9,12 +9,9 @@ import useCart from "../../contexts/CartProvider";
 import { priceFormat } from "@/app/helpers/formatter";
 import { useRouter } from "next/navigation";
 import QuantityInput from "@/app/components/QuantityInput";
+import { ProtectRoute } from "@/app/contexts/AuthProvider";
 
-export default function ProductPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
 
   const router = useRouter();
@@ -103,3 +100,5 @@ export default function ProductPage({
     </Layout>
   );
 }
+
+export default ProtectRoute(ProductPage);

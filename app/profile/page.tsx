@@ -2,14 +2,14 @@
 
 import { SyntheticEvent, useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import useAuth from "../contexts/AuthProvider";
+import useAuth, { ProtectRoute } from "../contexts/AuthProvider";
 import { FormError } from "../interfaces/login";
 import { isEmail, validPassword } from "../helpers/validation";
 import useHttp from "../contexts/HttpProvider";
 import { Profile } from "../interfaces/profile";
 import useToast from "../contexts/ToastProvider";
 
-export default function ProfilePage() {
+function ProfilePage() {
   const { user, getUser } = useAuth();
   const { update } = useHttp();
   const { showToast } = useToast();
@@ -176,6 +176,5 @@ export default function ProfilePage() {
     </Layout>
   );
 }
-function showToast(arg0: any, arg1: string) {
-  throw new Error("Function not implemented.");
-}
+
+export default ProtectRoute(ProfilePage);

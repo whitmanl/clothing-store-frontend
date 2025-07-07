@@ -1,11 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import { Product } from "../interfaces/catalogue";
-import { priceFormat } from "../helpers/formatter";
-import useCart from "../contexts/CartProvider";
-import { useRouter } from "next/navigation";
-
 export default function QuantityInput({
   quantity,
   onChange,
@@ -13,8 +7,6 @@ export default function QuantityInput({
   quantity: number;
   onChange: any;
 }) {
-  const router = useRouter();
-
   return (
     <div className="flex items-center gap-2">
       <button

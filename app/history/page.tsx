@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { Rings } from "react-loader-spinner";
 import useHttp from "../contexts/HttpProvider";
-import useAuth from "../contexts/AuthProvider";
+import useAuth, { ProtectRoute } from "../contexts/AuthProvider";
 import { History } from "../interfaces/history";
 import moment from "moment";
 import { priceFormat } from "../helpers/formatter";
@@ -19,7 +19,7 @@ interface HistoryFilter {
   productName?: string;
 }
 
-export default function Catalogue() {
+function HistoryPage() {
   const { showToast } = useToast();
   const { get } = useHttp();
   const { user } = useAuth();
@@ -262,3 +262,5 @@ export default function Catalogue() {
     </Layout>
   );
 }
+
+export default ProtectRoute(HistoryPage);

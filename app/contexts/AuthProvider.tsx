@@ -1,10 +1,11 @@
 "use client";
 
 import Cookies from "js-cookie";
-import _ from "lodash";
 import { useRouter } from "next/navigation";
 import React, {
   createContext,
+  FC,
+  JSX,
   ReactNode,
   useCallback,
   useContext,
@@ -14,6 +15,7 @@ import React, {
 
 import useHttp from "./HttpProvider";
 import { Profile } from "../interfaces/profile";
+import { Rings } from "react-loader-spinner";
 
 type authContextType = {
   isAuthenticated: boolean;
@@ -102,4 +104,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const ProtectRoute = <P extends object>(Component: FC<P>): FC<P> => {
+  const Authenticated: FC<P> = (props): JSX.Element | null => {
+    const { isAuthenticated, isLoading } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+      if (!isLoading && !isAuthenticated) {
+        router.push("/login");
+      }
+    }, [isAuthenticated, isLoading, router]);
+
+    if (isLoading) {
+      return (
+        <div className="flex justify-center items-center h-screen">
+          <Rings color="#00B9B5" height={80} width={80} />
+        </div>
+      );
+    }
+
+    return <Component {...props} />;
+  };
+
+  return Authenticated;
 };

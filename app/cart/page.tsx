@@ -1,13 +1,13 @@
 "use client";
 
-import useToast from "../contexts/ToastProvider";
 import useCart from "../contexts/CartProvider";
 import Layout from "../components/Layout";
 import QuantityInput from "../components/QuantityInput";
 import { priceFormat } from "../helpers/formatter";
 import { TrashIcon } from "@heroicons/react/24/outline";
+import { ProtectRoute } from "../contexts/AuthProvider";
 
-export default function Çart() {
+function ÇartPage() {
   const { cart, updateFromCart, removeFromCart, totalPrice, checkout } =
     useCart();
 
@@ -76,4 +76,6 @@ export default function Çart() {
       </div>
     </Layout>
   );
-}
+};
+
+export default ProtectRoute(ÇartPage);
