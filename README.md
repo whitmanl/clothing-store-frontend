@@ -24,9 +24,9 @@ finish at 7 July, 2025 12:46pm
 ```
 
 ## Key Points
-Integrates AuthProvider, CartProvider, HttpProvider and ToastProvider for global state access.
-Used ProtectRoute to restrict access to authenticated users.
-Next.js, React, TypeScript, Tailwind CSS, Daisyui, Moment, Lodash, js-cookie. These are the packages I usually use.
-Image error handling.
+- Integrates AuthProvider, CartProvider, HttpProvider and ToastProvider for global state access.
+- Used ProtectRoute to restrict access to authenticated users.
+- Next.js, React, TypeScript, Tailwind CSS, Daisyui, Moment, Lodash, js-cookie. These are the packages I usually use.
+- Image error handling.
 
 I am looking forward to your comments and feedback!
